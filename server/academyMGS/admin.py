@@ -1,5 +1,6 @@
 from django.contrib import admin
 from academyMGS.models import Student, Teacher, AcademyClass, AttendanceCheck
+from django.contrib import admin
 # Register your models here.
 
 admin.site.register(Student)

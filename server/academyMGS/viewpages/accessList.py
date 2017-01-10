@@ -13,7 +13,7 @@ def accessList(request):
                 {
                     "name": obj.name,
                     "id": obj.id,
-                    "academyClass": obj.acdemy_class,
+                    "academy_class": obj.acdemy_class,
                 }
             )
         data["flag"]=True

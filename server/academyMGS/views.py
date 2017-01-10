@@ -35,8 +35,8 @@ def setTeacherPage(request):
     return setTeacher.setTeacher(request)
 @csrf_exempt
 def attendanceCheckingPage(request):
-    return setTeacher.setTeacher(request)
+    return attendanceChecking.attendanceChecking(request)
 @csrf_exempt
 def attendanceStatusPage(request):
-    return setTeacher.setTeacher(request)
+    return attendanceStatus.attendanceStatus(request)
 

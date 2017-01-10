@@ -1,7 +1,7 @@
 from academyMGS.models import *
 import json
 from django.http import HttpResponse
-import datetime, time
+import datetime
 def attendanceChecking(request):
     data = {'flag': False}
     id = 0
