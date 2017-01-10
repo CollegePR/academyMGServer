@@ -77,7 +77,7 @@ class Teacher(models.Model):
         verbose_name_plural = '교사'
     # Fields
     id = models.CharField(primary_key=True, max_length=30)
-    password = models.CharField(max_length=30)
+    password = models.TextField()
     name = models.CharField(max_length=18)
     #어떤 반인지 AcademyClass id값임.
     acdemy_class = models.IntegerField(blank=True,null=True)
