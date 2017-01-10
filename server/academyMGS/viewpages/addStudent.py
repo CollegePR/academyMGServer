@@ -2,7 +2,7 @@ from academyMGS.models import *
 import json
 from django.http import HttpResponse
 import datetime
-
+from ..forms import ImageUploadForm
 def addStudent(request):
     data = {'flag': False}
     image = ""
@@ -34,7 +34,7 @@ def addStudent(request):
             date_of_exit = request.POST.get('date_of_exit')
             birthday = request.POST.get('birthday')
             academy_class = request.POST.get('academy_class')
-            image = request.POST.get('image')
+            image = ImageUploadForm(request.POST, request.FILES)
 
             date_of_admission=date_of_admission.split("-")
             date_of_admission_year=int(date_of_admission[0])
@@ -65,7 +65,6 @@ def addStudent(request):
 
         else:
             return HttpResponse(json.dumps(data), content_type='application/json')
-
         student = Student(
             name=name,
             sex=sex,
@@ -80,11 +79,10 @@ def addStudent(request):
             date_of_exit = exitData,
             birthday = birthdayData,
             academy_class = academy_class,
-            image = image,
-
-
+            image = image.cleaned_data['image'],
         )
         student.save()
+        print(student.image.path)
         data = {'flag': True}
     except:
         return HttpResponse(json.dumps(data), content_type='application/json')

@@ -1,6 +1,7 @@
 from django.db.models import *
 from django.db import models
-import ast
+import urllib, os
+from urllib.parse import urlparse
 class ListField(models.TextField):
     __metaclass__ = models.SubfieldBase
     description = "Stores a python list"
@@ -38,7 +39,14 @@ class AcademyClass(models.Model):
     def __str__(self):  # __unicode__ on Python 2
         return self.name
 
+def path_and_rename(instance, filename):
+    upload_to = 'static/profile'
+    ext = filename.split('.')[-1]
+    # get filename
+    filename = '{}.{}'.format(str(instance.pk), ext)
 
+    # return the whole path to the file
+    return os.path.join(upload_to, filename)
 class Student(models.Model):
     class Meta:
         verbose_name = '학생'
@@ -46,7 +54,6 @@ class Student(models.Model):
 
     # Fields
     id = models.AutoField(primary_key=True)
-    image = models.TextField(blank=True)
     name = models.CharField(max_length=18)
     sex = models.BooleanField(default=True)
     phone_num = models.TextField()
@@ -62,10 +69,26 @@ class Student(models.Model):
     status_of_sign = models.IntegerField(range(1, 3))
     #어떤 반인지 AcademyClass id값임.
     acdemy_class = models.IntegerField(blank=True,null=True)
+    image = models.ImageField(upload_to=path_and_rename)
+
     #attendanceCheck = AttendanceCheck()
     def __str__(self):  # __unicode__ on Python 2
-        return self.name
+        return self.image.url
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            saved_image = self.image
+            self.image = None
+            super(Student, self).save(*args, **kwargs)
+            self.image = saved_image
+
+        super(Student, self).save(*args, **kwargs)
+
+    def image_tag(self):
+        print(self.image.url)
+        return u'<img src="%s" />' % ("/"+self.image.url)
+    image_tag.short_description = 'thumb_nails'
+    image_tag.allow_tags = True
 class Teacher(models.Model):
     class Meta:
         verbose_name = '교사'
