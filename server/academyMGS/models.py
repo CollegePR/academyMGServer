@@ -69,7 +69,7 @@ class Student(models.Model):
     status_of_sign = models.IntegerField(range(1, 3))
     #어떤 반인지 AcademyClass id값임.
     acdemy_class = models.IntegerField(blank=True,null=True)
-    image = models.ImageField(upload_to=path_and_rename)
+    image = models.ImageField(upload_to=path_and_rename,blank=True,null=True)
 
     #attendanceCheck = AttendanceCheck()
     def __str__(self):  # __unicode__ on Python 2
