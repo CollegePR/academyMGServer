@@ -38,13 +38,14 @@ def setStudent(request):
             date_of_readdmission = request.POST.get('date_of_readdmission')
             date_of_exit = request.POST.get('date_of_exit')
             birthday = request.POST.get('birthday')
+            academy_class = request.POST.get('academy_class')
             if id is None:
                 return HttpResponse(json.dumps(data), content_type='application/json')
         else:
             return HttpResponse(json.dumps(data), content_type='application/json')
         student = Student.objects.get(id=id)
-        if not image is None:
-            student.image = image.cleaned_data['image'],
+        if not id is None:
+            student.id = id
         if not name is None:
             student.name = name
         if not sex is None:
@@ -90,6 +91,8 @@ def setStudent(request):
             birthday_day = int(birthday[2])
             birthdayData = datetime.date(birthday_year, birthday_month, birthday_day)
             student.birthday = birthdayData
+        if not academy_class is None:
+            student.acdemy_class = academy_class
 
         student.save()
         data = {'flag': True}

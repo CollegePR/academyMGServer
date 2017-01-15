@@ -69,26 +69,13 @@ class Student(models.Model):
     status_of_sign = models.IntegerField(range(1, 3))
     #어떤 반인지 AcademyClass id값임.
     acdemy_class = models.IntegerField(blank=True,null=True)
-    image = models.ImageField(upload_to=path_and_rename,blank=True,null=True)
+
 
     #attendanceCheck = AttendanceCheck()
     def __str__(self):  # __unicode__ on Python 2
-        return self.image.url
+        return self.name
 
-    def save(self, *args, **kwargs):
-        if self.pk is None:
-            saved_image = self.image
-            self.image = None
-            super(Student, self).save(*args, **kwargs)
-            self.image = saved_image
 
-        super(Student, self).save(*args, **kwargs)
-
-    def image_tag(self):
-        print(self.image.url)
-        return u'<img src="%s" />' % ("/"+self.image.url)
-    image_tag.short_description = 'thumb_nails'
-    image_tag.allow_tags = True
 class Teacher(models.Model):
     class Meta:
         verbose_name = '교사'
