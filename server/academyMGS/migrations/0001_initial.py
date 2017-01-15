@@ -17,21 +17,21 @@ class Migration(migrations.Migration):
                 ('name', models.TextField()),
             ],
             options={
-                'verbose_name': '수강과목',
                 'verbose_name_plural': '수강과목',
+                'verbose_name': '수강과목',
             },
         ),
         migrations.CreateModel(
             name='AttendanceCheck',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
                 ('student_id', models.IntegerField()),
                 ('date', models.DateField(blank=True, null=True)),
                 ('check', models.BooleanField()),
             ],
             options={
-                'verbose_name': '출석체크',
                 'verbose_name_plural': '출석체크',
+                'verbose_name': '출석체크',
             },
         ),
         migrations.CreateModel(
@@ -53,22 +53,22 @@ class Migration(migrations.Migration):
                 ('acdemy_class', models.IntegerField(blank=True, null=True)),
             ],
             options={
-                'verbose_name': '학생',
                 'verbose_name_plural': '학생',
+                'verbose_name': '학생',
             },
         ),
         migrations.CreateModel(
             name='Teacher',
             fields=[
-                ('id', models.CharField(max_length=30, primary_key=True, serialize=False)),
+                ('id', models.CharField(primary_key=True, serialize=False, max_length=30)),
                 ('password', models.TextField()),
                 ('name', models.CharField(max_length=18)),
                 ('acdemy_class', models.IntegerField(blank=True, null=True)),
                 ('status', models.IntegerField(default=1)),
             ],
             options={
-                'verbose_name': '교사',
                 'verbose_name_plural': '교사',
+                'verbose_name': '교사',
             },
         ),
     ]

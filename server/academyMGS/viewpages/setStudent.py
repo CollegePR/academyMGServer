@@ -8,7 +8,6 @@ def setStudent(request):
     id = 0
     name = ""
     sex = True
-    image = ""
     phone_num = ""
     address = ""
     school_name = ""
@@ -24,7 +23,6 @@ def setStudent(request):
     try:
         if request.method == "POST":
             id = request.POST.get('id')
-            image = ImageUploadForm(request.POST, request.FILES)
             name = request.POST.get('name')
             sex = request.POST.get('sex')
             phone_num = request.POST.get('phone_num')

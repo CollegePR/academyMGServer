@@ -78,7 +78,6 @@ def addStudent(request):
             academy_class = academy_class,
         )
         student.save()
-        print(student.image.path)
         data = {'flag': True}
     except:
         return HttpResponse(json.dumps(data), content_type='application/json')
