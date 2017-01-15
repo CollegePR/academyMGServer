@@ -75,7 +75,7 @@ def addStudent(request):
             date_of_readdmission = readdmissionData,
             date_of_exit = exitData,
             birthday = birthdayData,
-            academy_class = academy_class,
+            acdemy_class = academy_class,
         )
         student.save()
         data = {'flag': True}
