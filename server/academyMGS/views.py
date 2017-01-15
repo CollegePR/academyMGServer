@@ -47,6 +47,6 @@ def getClassNamePage(request):
 def classListPage(request):
     return classList.classList(request)
 @csrf_exempt
-def myStudentAttendance(request):
+def myStudentAttendancePage(request):
     return myStudentAttendance.myStudentAttendance(request)
 
