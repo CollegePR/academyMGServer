@@ -4,7 +4,6 @@ from django.http import HttpResponse
 import datetime
 def addStudent(request):
     data = {'flag': False}
-    image = ""
     name = ""
     sex = True
     phone_num = ""
@@ -33,7 +32,6 @@ def addStudent(request):
             date_of_exit = request.POST.get('date_of_exit')
             birthday = request.POST.get('birthday')
             academy_class = request.POST.get('academy_class')
-            image = ImageUploadForm(request.POST, request.FILES)
 
             date_of_admission=date_of_admission.split("-")
             date_of_admission_year=int(date_of_admission[0])
@@ -78,7 +76,6 @@ def addStudent(request):
             date_of_exit = exitData,
             birthday = birthdayData,
             academy_class = academy_class,
-            image = image.cleaned_data['image'],
         )
         student.save()
         print(student.image.path)
