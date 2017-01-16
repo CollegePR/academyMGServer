@@ -8,6 +8,7 @@ def myStudentAttendance(request):
     data = {'flag': False, 'data': []}
     requestId = ""
     __class = 0
+    check = False
 
     try:
         print("트라이")
@@ -26,14 +27,28 @@ def myStudentAttendance(request):
             print(stu)
 
             for stu_ in stu:
+                print ("================================")
                 print(stu_.name)
                 print(stu_.id)
                 print("위는 현재 포문 학생의 정보입니다===")
-                getId = AttendanceCheck.objects.get(student_id=stu_.id,date=datetime.date.today())
-                check_attendance = getId.check
-
-                print(check_attendance)
-                print("위 학생의 오늘 출석정보를 불러왔습니다")
+                try:
+                    getId = AttendanceCheck.objects.get(student_id=stu_.id,date=datetime.date.today())
+                    check_attendance = getId.check
+                    print(check_attendance)
+                    print("위 학생의 오늘 출석정보를 불러왔습니다")
+                except:
+                    print("학생의 오늘 출석정보가 존재하지않습니다. 출석정보를 입력합니다.")
+                    attendanceCheck = AttendanceCheck(
+                        student_id=stu_.id,
+                        date=datetime.date.today(),
+                        check=check,
+                    )
+                    attendanceCheck.save()
+                    print("출석정보를 갱신했습니다")
+                    getId = AttendanceCheck.objects.get(student_id=stu_.id, date=datetime.date.today())
+                    check_attendance = getId.check
+                    print(check_attendance)
+                    print("현재 학생의 오늘 출석정보를 다시 불러왔습니다")
                 data.get("data").insert(0, {
                     "id": stu_.id,
                     "name": stu_.name,
