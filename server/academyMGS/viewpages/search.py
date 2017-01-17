@@ -100,17 +100,21 @@ def search(request):
                     objs[0]['date_of_readdmission'] = str(objs[0]['date_of_readdmission'])
                     objs[0]['date_of_exit'] = str(objs[0]['date_of_exit'])
                     objs[0]['birthday'] = str(objs[0]['birthday'])
+        if searchQuery.__contains__("academy_class="):
+            searchQuery = searchQuery.split("=")[1]
+            students = Student.objects.filter(acdemy_class = int(searchQuery))
 
-        students = Student.objects.filter(
-            Q(id__contains=query) |
-            Q(name__contains=query) |
-            Q(address__contains=query) |
-            Q(school_class__contains=query) |
-            Q(school_name__contains=query) |
-            Q(grade__contains=query) |
-            Q(acdemy_class__contains=query) |
-            Q(phone_num__contains=query)
-        )
+        else:
+            students = Student.objects.filter(
+                Q(id__contains=query) |
+                Q(name__contains=query) |
+                Q(address__contains=query) |
+                Q(school_class__contains=query) |
+                Q(school_name__contains=query) |
+                Q(grade__contains=query) |
+                Q(acdemy_class__contains=query) |
+                Q(phone_num__contains=query)
+            )
 
         temps = []
         for obj in objs:
