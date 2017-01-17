@@ -2,6 +2,8 @@ from django.db.models import *
 from django.db import models
 import urllib, os
 from urllib.parse import urlparse
+
+
 class ListField(models.TextField):
     __metaclass__ = models.SubfieldBase
     description = "Stores a python list"
@@ -27,6 +29,7 @@ class ListField(models.TextField):
         value = self._get_val_from_obj(obj)
         return self.get_db_prep_value(value)
 
+
 class AcademyClass(models.Model):
     class Meta:
         verbose_name = '수강과목'
@@ -39,14 +42,20 @@ class AcademyClass(models.Model):
     def __str__(self):  # __unicode__ on Python 2
         return self.name
 
-def path_and_rename(instance, filename):
-    upload_to = 'static/profile'
-    ext = filename.split('.')[-1]
-    # get filename
-    filename = '{}.{}'.format(str(instance.pk), ext)
 
-    # return the whole path to the file
-    return os.path.join(upload_to, filename)
+def path_and_rename(instance, filename):
+    try:
+        upload_to = 'static/profile'
+        ext = filename.split('.')[-1]
+        # get filename
+        filename = '{}.{}'.format(str(instance.pk), ext)
+        return os.path.join(upload_to, filename)
+        # return the whole path to the file
+    except:
+        upload_to = 'static/profile'
+        return os.path.join(upload_to, 'default.png')
+
+
 class Student(models.Model):
     class Meta:
         verbose_name = '학생'
@@ -61,19 +70,19 @@ class Student(models.Model):
     school_name = models.TextField()
     grade = models.IntegerField()
     school_class = models.IntegerField()
-    date_of_admission = models.DateField(blank=True,null=True)
-    date_of_readdmission = models.DateField(blank=True,null=True)
-    date_of_exit = models.DateField(blank=True,null=True)
-    birthday = models.DateField(blank=True,null=True)
-    #현재 수강상태
+    date_of_admission = models.DateField(blank=True, null=True)
+    date_of_readdmission = models.DateField(blank=True, null=True)
+    date_of_exit = models.DateField(blank=True, null=True)
+    birthday = models.DateField(blank=True, null=True)
+    # 현재 수강상태
     status_of_sign = models.IntegerField(range(1, 3))
-    #어떤 반인지 AcademyClass id값임.
-    acdemy_class = models.IntegerField(blank=True,null=True)
-    image = models.ImageField(upload_to=path_and_rename,blank=True,null=True)
+    # 어떤 반인지 AcademyClass id값임.
+    acdemy_class = models.IntegerField(blank=True, null=True)
+    image = models.ImageField(upload_to=path_and_rename,blank=True, null=True)
 
-    #attendanceCheck = AttendanceCheck()
+    # attendanceCheck = AttendanceCheck()
     def __str__(self):  # __unicode__ on Python 2
-        return self.image.url
+        return self.name
 
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -85,31 +94,41 @@ class Student(models.Model):
         super(Student, self).save(*args, **kwargs)
 
     def image_tag(self):
-        print(self.image.url)
-        return u'<img src="%s" />' % ("/"+self.image.url)
+        try:
+            print(self.image.url)
+            return u'<img src="%s" />' % ("/" + self.image.url)
+        except:
+            return '<p>노무현</p>'
     image_tag.short_description = 'thumb_nails'
     image_tag.allow_tags = True
+
+
 class Teacher(models.Model):
     class Meta:
         verbose_name = '교사'
         verbose_name_plural = '교사'
+
     # Fields
     id = models.CharField(primary_key=True, max_length=30)
     password = models.TextField()
     name = models.CharField(max_length=18)
-    #어떤 반인지 AcademyClass id값임.
-    acdemy_class = models.IntegerField(blank=True,null=True)
+    # 어떤 반인지 AcademyClass id값임.
+    acdemy_class = models.IntegerField(blank=True, null=True)
     status = models.IntegerField(default=1)
+
     def __str__(self):  # __unicode__ on Python 2
         return self.name
+
+
 class AttendanceCheck(models.Model):
     class Meta:
         verbose_name = '출석체크'
         verbose_name_plural = '출석체크'
-    #Fields
+
+    # Fields
     student_id = models.IntegerField()
-    date = models.DateField(blank=True,null=True)
+    date = models.DateField(blank=True, null=True)
     check = models.BooleanField()
 
     def __str__(self):  # __unicode__ on Python 2
-      return self.student_id.__str__()
+        return self.student_id.__str__()

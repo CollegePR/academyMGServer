@@ -14,4 +14,5 @@ urlpatterns = (
     url(r'^attendancestatus', attendanceStatusPage),
     url(r'^getclassname', getClassNamePage),
     url(r'^classlist', classListPage),
+    url(r'^imageupload', imageUploadPage),
 )
