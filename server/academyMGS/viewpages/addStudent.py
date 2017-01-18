@@ -3,6 +3,8 @@ import json
 from django.http import HttpResponse
 import datetime
 from ..forms import ImageUploadForm
+
+
 def addStudent(request):
     data = {'flag': False}
     name = ""
@@ -18,6 +20,10 @@ def addStudent(request):
     date_of_exit = ""
     birthday = ""
     academy_class = 0
+    admissionData = None
+    readdmissionData = None
+    exitData = None
+    birthdayData = None
     try:
         if request.method == "POST":
             name = request.POST.get('name')
@@ -33,37 +39,37 @@ def addStudent(request):
             date_of_exit = request.POST.get('date_of_exit')
             birthday = request.POST.get('birthday')
             academy_class = request.POST.get('academy_class')
-
-            date_of_admission=date_of_admission.split("-")
-            date_of_admission_year=int(date_of_admission[0])
-            date_of_admission_month=int(date_of_admission[1])
-            date_of_admission_day = int(date_of_admission[2])
-            admissionData = datetime.date(date_of_admission_year,date_of_admission_month,date_of_admission_day)
-
-            date_of_readdmission = date_of_readdmission.split("-")
-            date_of_readdmission_year = int(date_of_readdmission[0])
-            date_of_readdmission_month = int(date_of_readdmission[1])
-            date_of_readdmission_day = int(date_of_readdmission[2])
-            readdmissionData = datetime.date(date_of_readdmission_year, date_of_readdmission_month, date_of_readdmission_day)
-
-            date_of_exit = date_of_exit.split("-")
-            date_of_exit_year = int(date_of_exit[0])
-            date_of_exit_month = int(date_of_exit[1])
-            date_of_exit_day = int(date_of_exit[2])
-            exitData = datetime.date(date_of_exit_year,date_of_exit_month,date_of_exit_day)
-
-            birthday = birthday.split("-")
-            birthday_year = int(birthday[0])
-            birthday_month = int(birthday[1])
-            birthday_day = int(birthday[2])
-            birthdayData = datetime.date(birthday_year,birthday_month,birthday_day)
+            if not date_of_admission is None:
+                date_of_admission = date_of_admission.split("-")
+                date_of_admission_year = int(date_of_admission[0])
+                date_of_admission_month = int(date_of_admission[1])
+                date_of_admission_day = int(date_of_admission[2])
+                admissionData = datetime.date(date_of_admission_year, date_of_admission_month, date_of_admission_day)
+            if not date_of_readdmission is None:
+                date_of_readdmission = date_of_readdmission.split("-")
+                date_of_readdmission_year = int(date_of_readdmission[0])
+                date_of_readdmission_month = int(date_of_readdmission[1])
+                date_of_readdmission_day = int(date_of_readdmission[2])
+                readdmissionData = datetime.date(date_of_readdmission_year, date_of_readdmission_month,
+                                                 date_of_readdmission_day)
+            if not date_of_exit is None:
+                date_of_exit = date_of_exit.split("-")
+                date_of_exit_year = int(date_of_exit[0])
+                date_of_exit_month = int(date_of_exit[1])
+                date_of_exit_day = int(date_of_exit[2])
+                exitData = datetime.date(date_of_exit_year, date_of_exit_month, date_of_exit_day)
+            if not birthday is None:
+                birthday = birthday.split("-")
+                birthday_year = int(birthday[0])
+                birthday_month = int(birthday[1])
+                birthday_day = int(birthday[2])
+                birthdayData = datetime.date(birthday_year, birthday_month, birthday_day)
 
 
 
 
         else:
             return HttpResponse(json.dumps(data), content_type='application/json')
-        print("tlqkf")
         student = Student(
             name=name,
             sex=sex,
@@ -73,15 +79,16 @@ def addStudent(request):
             school_class=school_class,
             grade=grade,
             status_of_sign=status_of_sign,
-            date_of_admission = admissionData,
-            date_of_readdmission = readdmissionData,
-            date_of_exit = exitData,
-            birthday = birthdayData,
-            acdemy_class = academy_class,
-            image = ImageUploadForm,
+            date_of_admission=admissionData,
+            date_of_readdmission=readdmissionData,
+            date_of_exit=exitData,
+            birthday=birthdayData,
+            acdemy_class=academy_class,
+            image=None,
         )
         student.save()
         data = {'flag': True}
+
     except:
         return HttpResponse(json.dumps(data), content_type='application/json')
 
