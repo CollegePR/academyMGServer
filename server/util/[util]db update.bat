@@ -1,4 +1,10 @@
-cd ../academyMGS 
+@echo off
+cd..
+echo 모든 데이터들이 날아갑니다 그래도 계속 하시겠습니까?
+pause
+python manage.py shell < ./util/script/db_reset_shell.py
+pause
+cd academyMGS 
 RMDIR migrations /S /Q
 cd ..
 python manage.py makemigrations
