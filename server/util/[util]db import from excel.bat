@@ -1,6 +1,15 @@
 @echo off
-cd..
-echo 모든 데이터들이 날아갑니다 그래도 계속 하시겠습니까?
+setlocal
+
+set /p flag=디비를 초기화 합니까?(y/n):
+if "%flag%" == "n" goto noresetdb
+
+start cmd /c "./[util]db update.bat"
 pause
-python manage.py shell < ./util/db_reset_shell.py
+start cmd /c "./[util]class input.bat"
+:noresetdb
+set /p filename=파일이름을 입력해주십시오. (.xlsx같은 확장자 붙여서):
+
+cd..
+python manage.py runscript db_import_from_excel --script-args %filename% --traceback
 pause
